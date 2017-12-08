@@ -1,0 +1,21 @@
+
+*** WARNING: ==> Identifier is never used: "Delivery_Identifier"
+*** 17:20:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0101_Entity_Delivery.matrix"
+
+*** WARNING: ==> Navigated entity not used: "Tank"
+*** 56:56:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0102_Entity_Pump.matrix"
+
+*** WARNING: ==> Identifier is never used: "Tank_Identifier"
+*** 18:20:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0103_Entity_Tank.matrix"
+
+*** WARNING: ==> Process data not initialised in state: "below_threshold"
+*** 121:37:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0103_Entity_Tank.matrix"
+
+*** WARNING: ==> Process data not initialised in state: "below_threshold"
+*** 251:37:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0103_Entity_Tank.matrix"
+
+*** WARNING: ==> Identifier is never used: "Transaction_Identifier"
+*** 20:20:"M:\Matrix\Models\Prof_Petrol_Station\Petrol_Station_Control\$Main\0104_Entity_Transaction.matrix"
+
+*** WARNING: ==> Identifier is never used: "Fuel_Grade_Identifier"
+*** 80:36:"M:\Matrix\Models\Prof_Petrol_Station\$Main\System.matrix"

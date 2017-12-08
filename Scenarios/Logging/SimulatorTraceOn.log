@@ -1,0 +1,514 @@
+﻿
+Setting environment for using Microsoft Visual Studio 2010 x86 tools.
+
+    Matrix Model Compiler - Professional Edition - SID/ANSIC/001 - Version 2.2.1
+    Architecture Design: Simple Interleaved Design - Version 1.3.2
+    Programming Templates: ANSI C/C++ - Version 1.2.0
+    Licenced to: Mike Finn, Dark Matter Systems Ltd
+    Single User Licence - Number: BB-72-02-87 - Expiry Date: None
+    Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+    Support: support@ultradark.com - Website: www.analysisdesignmatrix.com
+
+    Connection established: MATRIX*CORE - Version 2.0.0
+
+        Development on FRI-08-DEC-2017 @ 12:36:05
+
+        Model Name:
+            Prof_Petrol_Station
+        Matrix Model Folder:
+            M:\Matrix\Models
+        Generated Source Code:
+            M:\Matrix\Generated
+        Auxiliary Scenarios Folder:
+            M:\Matrix\Scenarios
+
+        System:Prof_Petrol_Station
+            Matrix:Model:Application
+                Silo:M1:Software_Application
+                    Realm:Analysis_Of_Application
+                        Domain:Petrol_Station_Control
+                            Entity:
+                                Delivery
+                                Pump
+                                Tank
+                                Transaction
+                                Fuel_Grade
+                                Pending_Transaction
+                                Evaded_Transaction
+                                Transaction_Policy
+                                Paid_Transaction
+
+        Model Compilation Elapsed Time: 00:00:02
+
+    Disconnected from MATRIX*CORE on FRI-08-DEC-2017 @ 12:36:07
+
+
+MATRIX PASSED
+
+
+~ProfPetrolStation.0003.0001.Delivery.DataAccess.c
+~ProfPetrolStation.0003.0003.Tank.Dispatcher.c
+~ProfPetrolStation.0011.0003.Simulator.Stimulate.c
+~ProfPetrolStation.0002.0001.Initialisation.c
+~ProfPetrolStation.0001.0004.Initialisation.c
+~ProfPetrolStation.0001.0005.Scheduler.c
+~ProfPetrolStation.0001.0006.LiteralStrings.c
+~ProfPetrolStation.0001.0007.Enumerations.c
+~ProfPetrolStation.0003.0001.Delivery.Identifiers.c
+~ProfPetrolStation.0002.0002.Scheduler.c
+~ProfPetrolStation.0002.0003.SchedulerInitialisation.c
+~ProfPetrolStation.0002.0004.ProcessIncludes.c
+~ProfPetrolStation.0003.0001.Delivery.EventSenders.c
+~ProfPetrolStation.0003.0005.FuelGrade.DataAccess.c
+~ProfPetrolStation.0003.0002.Pump.StateActions.c
+~ProfPetrolStation.0001.0001.Library.c
+~ProfPetrolStation.0003.0001.Delivery.ProcessIncludes.c
+~ProfPetrolStation.0003.0002.Pump.EventSenders.c
+~ProfPetrolStation.0003.0002.Pump.Identifiers.c
+~ProfPetrolStation.0003.0003.Tank.DataAccess.c
+Generating Code...
+Compiling...
+~ProfPetrolStation.0003.0002.Pump.Dispatcher.c
+~ProfPetrolStation.0003.0002.Pump.DataAccess.c
+~ProfPetrolStation.0003.0002.Pump.ProcessIncludes.c
+~ProfPetrolStation.0003.0003.Tank.EventSenders.c
+~ProfPetrolStation.0003.0003.Tank.Identifiers.c
+~ProfPetrolStation.0012.0003.Simulator.Tank.EventAcquireIdentity.c
+~ProfPetrolStation.0012.0003.Simulator.Tank.StateDisplay.c
+~ProfPetrolStation.0003.0003.Tank.ProcessIncludes.c
+~ProfPetrolStation.0003.0003.Tank.StateActions.c
+~ProfPetrolStation.0001.0003.MainProgram.c
+~ProfPetrolStation.0003.0006.PendingTransaction.Identifiers.c
+~ProfPetrolStation.0012.0002.Simulator.Pump.EventDisplay.c
+~ProfPetrolStation.0003.0001.Delivery.StateActions.c
+~ProfPetrolStation.0012.0001.Simulator.Delivery.StateDisplay.c
+~ProfPetrolStation.0012.0003.Simulator.Tank.EventDisplay.c
+~ProfPetrolStation.0012.0004.Simulator.Transaction.EventDisplay.c
+~ProfPetrolStation.0001.0002.ErrorHandler.c
+~ProfPetrolStation.0012.0002.Simulator.Pump.StateDisplay.c
+~ProfPetrolStation.0012.0004.Simulator.Transaction.StateDisplay.c
+~ProfPetrolStation.0003.0007.EvadedTransaction.DataAccess.c
+Generating Code...
+Compiling...
+~ProfPetrolStation.0003.0006.PendingTransaction.DataAccess.c
+~ProfPetrolStation.0003.0008.TransactionPolicy.DataAccess.c
+~ProfPetrolStation.0011.0001.Simulator.Configuration.c
+~ProfPetrolStation.0003.0001.Delivery.Dispatcher.c
+~ProfPetrolStation.0003.0004.Transaction.EventSenders.c
+~ProfPetrolStation.0011.0002.Simulator.LiteralStrings.c
+~ProfPetrolStation.0012.0001.Simulator.Delivery.EntityDisplay.c
+~ProfPetrolStation.0012.0001.Simulator.Delivery.EventAcquireIdentity.c
+~ProfPetrolStation.0003.0004.Transaction.DataAccess.c
+~ProfPetrolStation.0003.0004.Transaction.Identifiers.c
+~ProfPetrolStation.0003.0009.PaidTransaction.DataAccess.c
+~ProfPetrolStation.0012.0002.Simulator.Pump.EntityDisplay.c
+~ProfPetrolStation.0012.0002.Simulator.Pump.EventAcquireIdentity.c
+~ProfPetrolStation.0003.0004.Transaction.StateActions.c
+~ProfPetrolStation.0012.0002.Simulator.Pump.EventAcquireIdentifier.c
+~ProfPetrolStation.0012.0003.Simulator.Tank.EntityDisplay.c
+~ProfPetrolStation.0003.0004.Transaction.Dispatcher.c
+~ProfPetrolStation.0012.0003.Simulator.Tank.EventAcquireIdentifier.c
+~ProfPetrolStation.0012.0001.Simulator.Delivery.EventDisplay.c
+~ProfPetrolStation.0003.0004.Transaction.ProcessIncludes.c
+Generating Code...
+Compiling...
+~ProfPetrolStation.0012.0006.Simulator.PendingTransaction.EntityDisplay.c
+~ProfPetrolStation.0003.0005.FuelGrade.Identifiers.c
+~ProfPetrolStation.0012.0001.Simulator.Delivery.EventAcquireIdentifier.c
+~ProfPetrolStation.0012.0004.Simulator.Transaction.EntityDisplay.c
+~ProfPetrolStation.0003.0007.EvadedTransaction.Identifiers.c
+~ProfPetrolStation.0003.0008.TransactionPolicy.Identifiers.c
+~ProfPetrolStation.0003.0009.PaidTransaction.Identifiers.c
+~ProfPetrolStation.0012.0007.Simulator.EvadedTransaction.EntityDisplay.c
+~ProfPetrolStation.0012.0008.Simulator.TransactionPolicy.EntityDisplay.c
+~ProfPetrolStation.0012.0009.Simulator.PaidTransaction.EntityDisplay.c
+~ProfPetrolStation.0012.0004.Simulator.Transaction.EventAcquireIdentity.c
+~ProfPetrolStation.0012.0004.Simulator.Transaction.EventAcquireIdentifier.c
+~ProfPetrolStation.0012.0005.Simulator.FuelGrade.EntityDisplay.c
+Generating Code...
+
+
+COMPILE PASSED
+
+
+    Matrix Model Simulator - Learning Edition - Version 2.0.0
+    Development on FRI-08-DEC-2017 @ 12:36:14
+    Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    Connection established: MATRIX*CORE - Version 2.0.0
+
+$
+$ | Prof Petrol Station Scenario
+$
+$ trace all on
+$ trace display on
+$ trace events on
+$ trace states on
+$
+$ initialise all
+$
+$ display all
+
+Delivery:
+    Identity  Status  Timestamp_hours  Timestamp_minutes  Timestamp_seconds  Volume_delivered  Cost
+    ~~~~~~~~  ~~~~~~  ~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~  ~~~~
+
+Pump:
+    Identity  Status                Pump_number
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~
+           1  Waiting_For_Customer            1
+           2  Waiting_For_Customer            2
+           3  Waiting_For_Customer            3
+           4  Waiting_For_Customer         1001
+           5  Waiting_For_Customer         1002
+           6  Waiting_For_Customer         2001
+           7  Waiting_For_Customer         2002
+           8  Waiting_For_Customer         3001
+           9  Waiting_For_Customer         3002
+          10  Waiting_For_Customer         4001
+          11  Waiting_For_Customer         4002
+          12  Waiting_For_Customer         5001
+          13  Waiting_For_Customer         5002
+
+Tank:
+    Identity  Status                       Tank_number  Tank_empty_flag  Tank_level    Tank_capacity  Empty_threshold
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~  ~~~~~~~~~~~~~~~  ~~~~~~~~~~~~  ~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
+           1  Waiting_For_Tanker_Delivery         1001  True                 0.000000  100000.000000         0.040000
+           2  Reset_Waiting_Pumps                 1002  False            10000.000000  200000.000000         0.040000
+           3  Reset_Waiting_Pumps                    1  False               10.000000      60.000000         0.001000
+           4  Reset_Waiting_Pumps                    2  False               20.000000      70.000000         0.002000
+           5  Reset_Waiting_Pumps                    3  False               30.000000      80.000000         0.003000
+           6  Reset_Waiting_Pumps                    4  False               40.000000      90.000000         0.004000
+           7  Reset_Waiting_Pumps                    5  False               50.000000     100.000000         0.005000
+
+Transaction:
+    Identity  Status  Transaction_number  Cost  Delivery_time_hours  Delivery_time_minutes  Delivery_time_seconds
+    ~~~~~~~~  ~~~~~~  ~~~~~~~~~~~~~~~~~~  ~~~~  ~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~
+
+Fuel_Grade:
+    Identity  Grade_name   Unit_price  Unit_volume
+    ~~~~~~~~  ~~~~~~~~~~~  ~~~~~~~~~~  ~~~~~~~~~~~
+           1  "Four Star"   62.900002     0.010000
+           2  "Unleaded"    59.500000     0.010000
+
+Pending_Transaction:
+    Identity
+    ~~~~~~~~
+
+Evaded_Transaction:
+    Identity  Observations
+    ~~~~~~~~  ~~~~~~~~~~~~
+
+Transaction_Policy:
+    Identity  Next_transaction_number
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~
+           1                        1
+
+Paid_Transaction:
+    Identity
+    ~~~~~~~~
+
+$
+$ | //! CUSTOMER Removes Gun From Pump 2
+$ | private service PSC::CUSTOMER_Removes_Gun_From_Pump_2_1 () is
+$ |   pump_instance : instance of PUMP;
+$ |
+$ | begin
+$ |
+$ |   //# Customer removes gun from pump 2's holster
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |   generate PUMP.Gun_Removed() to pump_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Pump Gun_removed Pump_Identifier 2
+
+EVENT (0:0:0) - Pump[2] Gun_removed ()
+
+    STATE (3:40:26) - Pump[2] Waiting_Pump_Enable {Gun_removed -> Waiting_For_Customer} ()
+
+ATTENDANT~>Request_Pump_Enable
+
+$
+$ | //! ATTENDENT Enables Pump 2
+$ | private service PSC::ATTENDENT_Enables_Pump_2_2 () is
+$ |
+$ | begin
+$ |   //# Attendent enables Pump number 2
+$ |
+$ |   generate DELIVERY.Create_Delivery(2);
+$ | end service;
+$
+$ create event creation Petrol_Station_Control Delivery Create_delivery 2 20 34 20
+
+EVENT (0:0:0) - Delivery[] Create_delivery (Pump_number:2, Timestamp_hours:20, Timestamp_minutes:34, Timestamp_seconds:20)
+
+    STATE (2:30:31) - Delivery[1] Creating_Delivery {Create_delivery} (Pump_number:2, Timestamp_hours:20, Timestamp_minutes:34, Timestamp_seconds:20)
+
+        EVENT (2:65:33) - Pump[2] Pump_enabled ()
+
+    STATE (3:145:26) - Pump[2] Ready_To_Pump {Pump_enabled -> Waiting_Pump_Enable} ()
+
+MOTOR~>Start_Motor
+
+$
+$ | //! CUSTOMER Presses Trigger At Pump 2
+$ | private service PSC::CUSTOMER_Presses_Trigger_At_Pump_2_3 () is
+$ |   pump_instance : instance of PUMP;
+$ |
+$ | begin
+$ |   //# Customer presses Gun trigger on pump 2
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |   generate PUMP.Trigger_Depressed() to pump_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Pump Trigger_depressed Pump_Identifier 2
+
+EVENT (0:0:0) - Pump[2] Trigger_depressed ()
+
+    STATE (3:195:26) - Pump[2] Pumping {Trigger_depressed -> Ready_To_Pump} ()
+
+CLUTCH~>Engage_Clutch
+
+$
+$ | //! METER Delivers Fuel Unit For Pump 2
+$ | private service PSC::METER_Delivers_Fuel_Unit_For_Pump_2_4 () is
+$ |   delivery_instance : instance of DELIVERY;
+$ |
+$ | begin
+$ |   //# The delivery needs to be informed about each metered fuel delivery
+$ |
+$ |   delivery_instance := find_one DELIVERY (Pump_Number = 2);
+$ |   generate DELIVERY.Fuel_Unit_Delivered() to delivery_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Delivery Fuel_unit_delivered Delivery_Identifier 2
+
+EVENT (0:0:0) - Delivery[1] Fuel_unit_delivered ()
+
+    STATE (2:77:26) - Delivery[1] Calculating_Price_Of_Unconstrained_Delivery {Fuel_unit_delivered -> Creating_Delivery} ()
+
+$
+$ | //! CUSTOMER Releases Trigger At Pump 2
+$ | private service PSC::CUSTOMER_Releases_Trigger_At_Pump_2_5 () is
+$ |   pump_instance : instance of PUMP;
+$ |
+$ | begin
+$ |   //# Customer releases Gun trigger on pump 2
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |   generate PUMP.Trigger_Released() to pump_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Pump Trigger_released Pump_Identifier 2
+
+EVENT (0:0:0) - Pump[2] Trigger_released ()
+
+    STATE (3:169:26) - Pump[2] Pumping_Paused {Trigger_released -> Pumping} ()
+
+CLUTCH~>Disengage_Clutch
+
+$
+$ | //! CUSTOMER Replaces Gun At Pump 2
+$ | private service PSC::CUSTOMER_Replaces_Gun_At_Pump_2_6 () is
+$ |   pump_instance : instance of PUMP;
+$ |
+$ | begin
+$ |   //# Customer replaces gun in pump 2's holster
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |   generate PUMP.Gun_Replaced() to pump_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Pump Gun_replaced Pump_Identifier 2
+
+EVENT (0:0:0) - Pump[2] Gun_replaced ()
+
+    STATE (3:108:26) - Pump[2] Fuel_Delivery_Complete {Gun_replaced -> Pumping_Paused} ()
+
+        EVENT (3:125:33) - Delivery[1] Delivery_complete ()
+
+MOTOR~>Stop_Motor
+
+        EVENT (3:130:25) - Pump[2] Customer_finished ()
+
+    STATE (3:21:26) - Pump[2] Waiting_For_Customer {Customer_finished -> Fuel_Delivery_Complete} ()
+
+    STATE (2:118:26) - Delivery[1] Delivery_Complete_State {Delivery_complete -> Calculating_Price_Of_Unconstrained_Delivery} ()
+
+        EVENT (2:138:47) - Transaction[] Create_transaction (Delivery_pump:2, Delivery_cost:59.500000, Delivery_time_hours:20, Delivery_time_minutes:34, Delivery_time_seconds:20)
+
+        EVENT (2:144:47) - Tank[2] Fuel_used (Delivered_volume:0.010000)
+
+        EVENT (2:147:25) - Delivery[1] Delete_delivery ()
+
+    STATE (2:185:27) - Delivery[1] Delivery_Vanishes {Delete_delivery -> Delivery_Complete_State} ()
+
+    STATE (4:178:30) - Tank[2] Checking_Levels_After_Pump_Usage {Fuel_used -> Reset_Waiting_Pumps} (Delivered_volume:0.010000)
+
+        EVENT (4:260:33) - Tank[2] Level_above_threshold ()
+
+    STATE (4:164:26) - Tank[2] Reset_Waiting_Pumps {Level_above_threshold -> Checking_Levels_After_Pump_Usage} ()
+
+    STATE (5:37:31) - Transaction[1] Creating_Pending_Transaction {Create_transaction} (Delivery_pump:2, Delivery_cost:59.500000, Delivery_time_hours:20, Delivery_time_minutes:34, Delivery_time_seconds:20)
+
+$
+$ | //! CUSTOMER Absconds From Pump 2
+$ | private service PSC::CUSTOMER_Absconds_From_Pump_2_8 () is
+$ |   pump_instance : instance of PUMP;
+$ |   current_pending_transaction : instance of PENDING_TRANSACTION;
+$ |   current_transaction : instance of TRANSACTION;
+$ |
+$ | begin
+$ |   //# Customer absconds from Pump 2 without paying
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |
+$ |   current_pending_transaction := pump_instance->R9;
+$ |
+$ |   if current_pending_transaction /= null then
+$ |     current_transaction := current_pending_transaction->R4;
+$ |     generate TRANSACTION.Customer_Absconds("Details") to current_transaction;
+$ |   end if;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Transaction Customer_absconds Transaction_Identifier 1 "Details"
+
+EVENT (0:0:0) - Transaction[1] Customer_absconds (Customer_details:"Details")
+
+    STATE (5:158:30) - Transaction[1] Evaded_State {Customer_absconds -> Creating_Pending_Transaction} (Customer_details:"Details")
+
+$
+$ | //! CUSTOMER Pays For Fuel For Pump 2
+$ | private service PSC::CUSTOMER_Pays_For_Fuel_For_Pump_2_7 () is
+$ |   pump_instance : instance of PUMP;
+$ |   current_pending_transaction : instance of PENDING_TRANSACTION;
+$ |   current_transaction : instance of TRANSACTION;
+$ |
+$ | begin
+$ |   //# Customer pays for fuel for Pump 2
+$ |
+$ |   pump_instance := find_one PUMP (Pump_Number = 2);
+$ |
+$ |   current_pending_transaction := pump_instance->R9;
+$ |
+$ |   if current_pending_transaction /= null then
+$ |     current_transaction := current_pending_transaction->R4;
+$ |     generate TRANSACTION.Payment_Received() to current_transaction;
+$ |   end if;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Transaction Payment_received Transaction_Identifier 1
+
+EVENT (0:0:0) - Transaction[1] Payment_received ()
+
+    STATE (5:99:26) - Transaction[1] Paid_State {Payment_received -> Evaded_State} ()
+
+$
+$ | //! TANKER Delivery For Tank 1002
+$ | private service PSC::TANKER_Delivery_For_Tank_1002_9 () is
+$ |   tank_instance : instance of TANK;
+$ |
+$ | begin
+$ |   //# Tanker driver fills tank 1002 with 10000
+$ |
+$ |   tank_instance := find_one TANK (Tank_Number = 1002);
+$ |   generate TANK.Tanker_Delivery(10000.00) to tank_instance;
+$ | end service;
+$
+$ create event identifier Petrol_Station_Control Tank Tanker_delivery Tank_Identifier 1002 10000.00
+
+EVENT (0:0:0) - Tank[2] Tanker_delivery (Added_volume:10000.000000)
+
+    STATE (4:31:30) - Tank[2] Checking_Levels_After_Tanker_Delivery {Tanker_delivery -> Reset_Waiting_Pumps} (Added_volume:10000.000000)
+
+        EVENT (4:137:41) - Pump[2] Fuel_available ()
+
+        EVENT (4:137:41) - Pump[3] Fuel_available ()
+
+        EVENT (4:139:33) - Tank[2] Level_above_threshold ()
+
+    STATE (4:164:26) - Tank[2] Reset_Waiting_Pumps {Level_above_threshold -> Checking_Levels_After_Tanker_Delivery} ()
+
+$
+$ display all
+
+Delivery:
+    Identity  Status  Timestamp_hours  Timestamp_minutes  Timestamp_seconds  Volume_delivered  Cost
+    ~~~~~~~~  ~~~~~~  ~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~  ~~~~
+
+Pump:
+    Identity  Status                Pump_number
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~
+           1  Waiting_For_Customer            1
+           2  Waiting_For_Customer            2
+           3  Waiting_For_Customer            3
+           4  Waiting_For_Customer         1001
+           5  Waiting_For_Customer         1002
+           6  Waiting_For_Customer         2001
+           7  Waiting_For_Customer         2002
+           8  Waiting_For_Customer         3001
+           9  Waiting_For_Customer         3002
+          10  Waiting_For_Customer         4001
+          11  Waiting_For_Customer         4002
+          12  Waiting_For_Customer         5001
+          13  Waiting_For_Customer         5002
+
+Tank:
+    Identity  Status                       Tank_number  Tank_empty_flag  Tank_level    Tank_capacity  Empty_threshold
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~  ~~~~~~~~~~~~~~~  ~~~~~~~~~~~~  ~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
+           1  Waiting_For_Tanker_Delivery         1001  True                 0.000000  100000.000000         0.040000
+           2  Reset_Waiting_Pumps                 1002  False            19999.990234  200000.000000         0.040000
+           3  Reset_Waiting_Pumps                    1  False               10.000000      60.000000         0.001000
+           4  Reset_Waiting_Pumps                    2  False               20.000000      70.000000         0.002000
+           5  Reset_Waiting_Pumps                    3  False               30.000000      80.000000         0.003000
+           6  Reset_Waiting_Pumps                    4  False               40.000000      90.000000         0.004000
+           7  Reset_Waiting_Pumps                    5  False               50.000000     100.000000         0.005000
+
+Transaction:
+    Identity  Status      Transaction_number  Cost       Delivery_time_hours  Delivery_time_minutes  Delivery_time_seconds
+    ~~~~~~~~  ~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~  ~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~
+           1  Paid_State                   1  59.500000                   20                     34                     20
+
+Fuel_Grade:
+    Identity  Grade_name   Unit_price  Unit_volume
+    ~~~~~~~~  ~~~~~~~~~~~  ~~~~~~~~~~  ~~~~~~~~~~~
+           1  "Four Star"   62.900002     0.010000
+           2  "Unleaded"    59.500000     0.010000
+
+Pending_Transaction:
+    Identity
+    ~~~~~~~~
+
+Evaded_Transaction:
+    Identity  Observations
+    ~~~~~~~~  ~~~~~~~~~~~~
+
+Transaction_Policy:
+    Identity  Next_transaction_number
+    ~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~
+           1                        2
+
+Paid_Transaction:
+    Identity
+    ~~~~~~~~
+           1
+
+$
+$ host pause
+$
+$ exit
+
+        Model Simulation Elapsed Time: 00:00:01
+
+    Disconnected from MATRIX*CORE on FRI-08-DEC-2017 @ 12:36:15
+
+
+
+TEST PASSED
+
+
+
+
+Tool completed successfully
