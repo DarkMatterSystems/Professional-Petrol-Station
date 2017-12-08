@@ -1,0 +1,225 @@
+
+DefineDomainInclude:0104_Entity_Transaction
+
+    | Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    | MASL code within comment sections are UK Crown Copyright.
+
+    Entity:Transaction
+        Attribute
+            Business_Number : Transaction_number
+            Money           : Cost
+            Time_Hour       : Delivery_time_hours
+            Time_Minute     : Delivery_time_minutes
+            Time_Second     : Delivery_time_seconds
+        Relationship
+            Governed_by    --> Transaction_Policy
+            Generalisation -|> Pending_Transaction
+            Generalisation -|> Paid_Transaction
+            Generalisation -|> Evaded_Transaction
+        Identifier:Transaction_Identifier
+            OwnKey
+                Transaction_number
+        State
+
+            Dataset:Creation_Data
+                Equipment_Number : Delivery_pump
+                Money            : Delivery_cost
+                Time_Hour        : Delivery_time_hours
+                Time_Minute      : Delivery_time_minutes
+                Time_Second      : Delivery_time_seconds
+
+            Dataset:Customer_Details
+                Text : Customer_details
+
+            |-----------
+
+            CreationDataState:Creating_Pending_Transaction:Creation_Data
+                StateAction
+                    |
+                    | //# Create pending transaction waiting payment from customer
+                    |
+                    | new_transaction := create unique TRANSACTION (
+                    | Delivery_Start_Time => Delivery_Time,
+                    | Cost => Delivery_Cost,
+                    | Transaction_Type => Pending,
+                    |     Current_State => Creating_pending_transaction);
+                    |
+                    EntitySelection:Transaction_Policy
+                        Selection
+                            Relate
+                                Transaction : Governed_by : Transaction_Policy
+                    Traverse
+                        Navigation
+                            Transaction : Governed_by : Transaction_Policy
+                        TraverseSelection
+                            Assignment
+                                SetInteger
+                                    Transaction.Transaction_number    := Transaction_Policy.Next_transaction_number
+                                    Transaction.Delivery_time_hours   := Delivery_time_hours
+                                    Transaction.Delivery_time_minutes := Delivery_time_minutes
+                                    Transaction.Delivery_time_seconds := Delivery_time_seconds
+                                SetFixed
+                                    Transaction.Cost := Delivery_cost
+                                Evaluation:Transaction_Policy.Next_transaction_number
+                                    Addition
+                                        AdditionData
+                                            Transaction_Policy.Next_transaction_number
+                                            <<IntegerOne>>
+                    |
+                    | new_pending_transaction := create PENDING_TRANSACTION (
+                    | Transaction_Number => new_transaction.Transaction_Number);
+                    | link new_transaction R4.PENDING_TRANSACTION new_pending_transaction;
+                    |
+                    CreatePassive:Pending_Transaction
+                        Relate
+                            Transaction : Generalisation : Pending_Transaction
+                        |
+                        | delivery_pump_instance := find_one PUMP (Pump_Number = Delivery_Pump);
+                        |
+                        | link new_transaction R10 delivery_pump_instance;
+                        | link new_pending_transaction R9 delivery_pump_instance;
+                        |
+                        IdentifierSelection:Pump:Pump_Identifier
+                            IdentifierKey
+                                Pump : Pump_number : Delivery_pump
+                            KeySelection
+                                Relate
+                                    Pending_Transaction : Pending_for : Pump
+                Transition
+                    EventState
+                        Payment_received  -> Paid_State
+                        Customer_absconds -> Evaded_State
+                    CannotHappen
+                        Create_transaction
+                        Close_transaction
+
+            |-----------
+
+            DynamicState:Paid_State
+                StateAction
+                    |
+                    | //# Migrate pending subtype to paid subtype. Link all payments to the paid subtype.
+                    | //# Calculate the number of tokens and tell the operator to issue them to
+                    | //# the customer.
+                    |
+                    | case this.Transaction_Type is
+                    | when Pending =>
+                    |   pending_transaction_instance := this->R4.PENDING_TRANSACTION;
+                    |   unlink this R4.PENDING_TRANSACTION pending_transaction_instance;
+                    |   connected_pump := pending_transaction_instance->R9;
+                    |   unlink pending_transaction_instance R9 connected_pump;
+                    |   delete pending_transaction_instance;
+                    | when Evaded =>
+                    |   evaded_transaction_instance := this->R4.EVADED_TRANSACTION;
+                    |   unlink this R4.EVADED_TRANSACTION evaded_transaction_instance;
+                    |   delete evaded_transaction_instance;
+                    | end case;
+                    |
+                    Traverse
+                        Navigation
+                            Transaction         : Generalisation : Pending_Transaction
+                            Pending_Transaction : Pending_for    : Pump
+                        TraverseSelection
+                            Unrelate
+                                Transaction         : Generalisation : Pending_Transaction
+                                Pending_Transaction : Pending_for    : Pump
+                            Delete
+                                Pending_Transaction
+                        NullTraverseSelection
+                            Traverse
+                                Navigation
+                                    Transaction : Generalisation : Evaded_Transaction
+                                TraverseSelection
+                                    Unrelate
+                                        Transaction : Generalisation : Evaded_Transaction
+                                    Delete
+                                        Evaded_Transaction
+                    |
+                    | paid_transaction_instance := create PAID_TRANSACTION (
+                    |   Transaction_Number => this.Transaction_Number);
+                    | this.Transaction_Type := Paid;
+                    |
+                    | link this R4.PAID_TRANSACTION paid_transaction_instance;
+                    |
+                    CreatePassive:Paid_Transaction
+                        Relate
+                            Transaction : Generalisation : Paid_Transaction
+                Transition
+                    EventState
+                        Close_transaction -> Transaction_Vanishes
+                    CannotHappen
+                        Create_transaction
+                        Payment_received
+                        Customer_absconds
+
+            |-----------
+
+            DynamicDataState:Evaded_State:Customer_Details
+                StateAction
+                    |
+                    | //# Migrate pending subtype to evaded subtype.
+                    | //# Record customer details.
+                    |
+                    | pending_transaction_instance := this->R4.PENDING_TRANSACTION;
+                    | unlink this R4.PENDING_TRANSACTION pending_transaction_instance;
+                    | pump_instance := pending_transaction_instance->R9;
+                    | unlink pending_transaction_instance R9 pump_instance;
+                    | delete pending_transaction_instance;
+                    |
+                    Traverse
+                        Navigation
+                            Transaction         : Generalisation : Pending_Transaction
+                            Pending_Transaction : Pending_for    : Pump
+                        TraverseSelection
+                            Unrelate
+                                Transaction         : Generalisation : Pending_Transaction
+                                Pending_Transaction : Pending_for    : Pump
+                            Delete
+                                Pending_Transaction
+                    |
+                    | evaded_transaction_instance := create EVADED_TRANSACTION (
+                    |   Transaction_Number => this.Transaction_Number,
+                    |   Observations => Customer_Details);
+                    |
+                    | this.Transaction_Type := Evaded;
+                    |
+                    | link this R4.EVADED_TRANSACTION evaded_transaction_instance;
+                    |
+                    CreatePassive:Evaded_Transaction
+                        Assignment
+                            SetString
+                                Evaded_Transaction.Observations := Customer_details
+                        Relate
+                            Transaction : Generalisation : Evaded_Transaction
+                Transition
+                    EventState
+                        Payment_received -> Paid_State
+                    IgnoreEvent
+                        Customer_absconds
+                    CannotHappen
+                        Create_transaction
+                        Close_transaction
+
+            |-----------
+
+            DeletionState:Transaction_Vanishes
+                StateAction
+                    |
+                    | Extra state
+                    |
+                    Traverse
+                        Navigation
+                            Transaction : Generalisation : Paid_Transaction
+                        TraverseSelection
+                            Unrelate
+                                Transaction : Generalisation : Paid_Transaction
+                            Delete
+                                Paid_Transaction
+                Transition
+                    EventState
+                        Create_transaction -> Creating_Pending_Transaction
+                    CannotHappen
+                        Payment_received
+                        Customer_absconds
+                        Close_transaction

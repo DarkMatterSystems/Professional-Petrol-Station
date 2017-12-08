@@ -1,0 +1,216 @@
+
+DefineDomainInclude:0102_Entity_Pump
+
+    | Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    | MASL code within comment sections are UK Crown Copyright.
+
+    Entity:Pump
+        Attribute
+            Equipment_Number : Pump_number
+        Relationship
+            Pumping_fuel_from --> Tank
+            Being_used_for    -|> Delivery
+        Identifier:Pump_Identifier
+            OwnKey
+                Pump_number
+        State
+
+            |-----------
+
+            DynamicState:Waiting_For_Customer
+                |
+                | //# The pump is idle. Wait in this state until
+                | //# a customer removes the gun from its holster.
+                |
+                Transition
+                    EventState
+                        Gun_removed -> Waiting_Pump_Enable
+                    IgnoreEvent
+                        Gun_replaced
+                        Fuel_level_low
+                        Fuel_available
+                        Pump_enabled
+                        Trigger_depressed
+                        Trigger_released
+                        Customer_finished
+
+            |-----------
+
+            DynamicState:Waiting_Pump_Enable
+                StateAction
+                    |
+                    | //# Determine whether the connected tank contains
+                    | //# more than 4% of its capacity.
+                    |
+                    | supplying_tank := this->R1;
+                    |
+                    | if supplying_tank.Tank_Empty_Flag = true then
+                    | generate PUMP.Fuel_Level_Low() to this;
+                    | else
+                    | ATTENDANT~>Request_Pump_Enable();
+                    | end if;
+                    |
+                    Traverse
+                        Navigation
+                            Pump : Pumping_fuel_from : Tank
+                        TraverseSelection
+                            CaseSelection
+                                WhenCase
+                                    ConditionAnd
+                                        BooleanAnd
+                                            Tank.Tank_empty_flag
+                                    WhenCaseSelection
+                                        GenerateEvent
+                                            Pump : Fuel_level_low
+                                NullCaseSelection
+                                    Template
+                                        <<:>>ATTENDANT~>Request_Pump_Enable
+                                        <<:>>
+                Transition
+                    EventState
+                        Gun_replaced   -> Waiting_For_Customer
+                        Fuel_level_low -> Fuel_Unavailable
+                        Pump_enabled   -> Ready_To_Pump
+                    IgnoreEvent
+                        Gun_removed
+                        Fuel_available
+                        Trigger_depressed
+                        Trigger_released
+                        Customer_finished
+
+            |-----------
+
+            DynamicState:Fuel_Unavailable
+                StateAction
+                    |
+                    | //# Inform customer that the pump is unavailable.
+                    | //# Wait for fuel to become available for this pump.
+                    | CUSTOMER~>Pump_Unavailable();
+                    |
+                    Template
+                        <<:>>CUSTOMER~>Pump_Unavailable
+                        <<:>>
+                Transition
+                    EventState
+                        Fuel_available -> Waiting_For_Customer
+                    IgnoreEvent
+                        Gun_removed
+                        Gun_replaced
+                        Fuel_level_low
+                        Pump_enabled
+                        Trigger_depressed
+                        Trigger_released
+                        Customer_finished
+
+            |-----------
+
+            DynamicState:Fuel_Delivery_Complete
+                StateAction
+                    |
+                    | //# Delivery Now Complete, Stop motor and return pump
+                    | //# to waiting state
+                    |
+                    | current_delivery := this->R3;
+                    | generate DELIVERY.Delivery_Complete() to current_delivery;
+                    |
+                    | MOTOR~>Stop_Motor();
+                    | generate PUMP.Customer_Finished() to this;
+                    |
+                    Traverse
+                        Navigation
+                            Pump : Being_used_for : Delivery
+                        TraverseSelection
+                            GenerateEvent
+                                Delivery : Delivery_complete
+                    Template
+                        <<:>>MOTOR~>Stop_Motor
+                        <<:>>
+                    GenerateEvent
+                        Pump : Customer_finished
+                Transition
+                    EventState
+                        Customer_finished -> Waiting_For_Customer
+                    IgnoreEvent
+                        Gun_removed
+                        Gun_replaced
+                        Fuel_level_low
+                        Fuel_available
+                        Pump_enabled
+                        Trigger_depressed
+                        Trigger_released
+
+            |-----------
+
+            DynamicState:Ready_To_Pump
+                StateAction
+                    |
+                    | //# Start pump motor and wait for the gun trigger to be depressed.
+                    | //# Or the gun can be replaced.
+                    | MOTOR~>Start_Motor();
+                    |
+                    Template
+                        <<:>>MOTOR~>Start_Motor
+                        <<:>>
+                Transition
+                    EventState
+                        Gun_replaced      -> Fuel_Delivery_Complete
+                        Trigger_depressed -> Pumping
+                    IgnoreEvent
+                        Gun_removed
+                        Fuel_level_low
+                        Fuel_available
+                        Pump_enabled
+                        Trigger_released
+                        Customer_finished
+
+            |-----------
+
+            DynamicState:Pumping_Paused
+                StateAction
+                    |
+                    | //# Disengage clutch which stops pumping.
+                    | //# Wait for gun to be replaced into the
+                    | //# holster or for the trigger to be depressed.
+                    |
+                    | CLUTCH~>Disengage_Clutch();
+                    |
+                    Template
+                        <<:>>CLUTCH~>Disengage_Clutch
+                        <<:>>
+                Transition
+                    EventState
+                        Gun_replaced      -> Fuel_Delivery_Complete
+                        Trigger_depressed -> Pumping
+                    IgnoreEvent
+                        Gun_removed
+                        Fuel_level_low
+                        Fuel_available
+                        Pump_enabled
+                        Trigger_released
+                        Customer_finished
+
+            |-----------
+
+            DynamicState:Pumping
+                StateAction
+                    |
+                    | //# Engage clutch which starts pumping.
+                    | //# Continue until the gun trigger is released
+                    |
+                    | CLUTCH~>Engage_Clutch();
+                    |
+                    Template
+                        <<:>>CLUTCH~>Engage_Clutch
+                        <<:>>
+                Transition
+                    EventState
+                        Trigger_released -> Pumping_Paused
+                    IgnoreEvent
+                        Gun_removed
+                        Gun_replaced
+                        Fuel_level_low
+                        Fuel_available
+                        Pump_enabled
+                        Trigger_depressed
+                        Customer_finished

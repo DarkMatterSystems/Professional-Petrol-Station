@@ -1,0 +1,93 @@
+
+DefineMatrixInclude:0200_Silo_Real_World_Objects
+
+    | Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    | MASL code within comment sections are UK Crown Copyright.
+
+    Silo:M0:Real_World_Objects
+        RealmObject:Objects_Of_Analysis
+            DomainObject:Petrol_Station_Control
+
+                EntityObject:Pump
+                    Object
+                        | Identity    | State                | Pump_number
+                        PUMP_ID000001 : Waiting_For_Customer :           1
+                        PUMP_ID000002 : Waiting_For_Customer :           2
+                        PUMP_ID000003 : Waiting_For_Customer :           3
+                        | Junk Objects
+                        PUMP_ID001001 : Waiting_For_Customer :       1_001
+                        PUMP_ID001002 : Waiting_For_Customer :       1_002
+                        PUMP_ID002001 : Waiting_For_Customer :       2_001
+                        PUMP_ID002002 : Waiting_For_Customer :       2_002
+                        PUMP_ID003001 : Waiting_For_Customer :       3_001
+                        PUMP_ID003002 : Waiting_For_Customer :       3_002
+                        PUMP_ID004001 : Waiting_For_Customer :       4_001
+                        PUMP_ID004002 : Waiting_For_Customer :       4_002
+                        PUMP_ID005001 : Waiting_For_Customer :       5_001
+                        PUMP_ID005002 : Waiting_For_Customer :       5_002
+                    ObjectRelation:Pumping_fuel_from:Tank
+                        PUMP_ID000001 : TANK_ID01001
+                        PUMP_ID000002 : TANK_ID01002
+                        PUMP_ID000003 : TANK_ID01002
+                        | Junk Relations
+                        PUMP_ID001001 : TANK_ID00001
+                        PUMP_ID001002 : TANK_ID00001
+                        PUMP_ID002001 : TANK_ID00002
+                        PUMP_ID002002 : TANK_ID00002
+                        PUMP_ID003001 : TANK_ID00003
+                        PUMP_ID003002 : TANK_ID00003
+                        PUMP_ID004001 : TANK_ID00004
+                        PUMP_ID004002 : TANK_ID00004
+                        PUMP_ID005001 : TANK_ID00005
+                        PUMP_ID005002 : TANK_ID00005
+
+
+                EntityObject:Tank
+                    Object
+                        | Identity   | State                       | Tank_number | Tank_empty_flag | Tank_level | Tank_capacity | Empty_threshold
+                        TANK_ID01001 : Waiting_For_Tanker_Delivery :       1_001 :            True :        0.0 :     100_000.0 :           0.040
+                        TANK_ID01002 : Reset_Waiting_Pumps         :       1_002 :           False :   10_000.0 :     200_000.0 :           0.040
+                        | Junk Objects
+                        TANK_ID00001 : Reset_Waiting_Pumps         :           1 :           False :       10.0 :          60.0 :           0.001
+                        TANK_ID00002 : Reset_Waiting_Pumps         :           2 :           False :       20.0 :          70.0 :           0.002
+                        TANK_ID00003 : Reset_Waiting_Pumps         :           3 :           False :       30.0 :          80.0 :           0.003
+                        TANK_ID00004 : Reset_Waiting_Pumps         :           4 :           False :       40.0 :          90.0 :           0.004
+                        TANK_ID00005 : Reset_Waiting_Pumps         :           5 :           False :       50.0 :         100.0 :           0.005
+                    ObjectRelation:Stores:Fuel_Grade
+                        TANK_ID01001 : FOUR_STAR
+                        TANK_ID01002 : UNLEADED
+                        | Junk Objects
+                        TANK_ID00001 : UNLEADED
+                        TANK_ID00002 : UNLEADED
+                        TANK_ID00003 : UNLEADED
+                        TANK_ID00004 : UNLEADED
+                        TANK_ID00005 : UNLEADED
+                    ObjectRelation:Providing_fuel_for:Pump
+                        TANK_ID01001 : PUMP_ID000001
+                        TANK_ID01002 : PUMP_ID000002
+                        TANK_ID01002 : PUMP_ID000003
+                        | Junk Relations
+                        TANK_ID00001 : PUMP_ID001001
+                        TANK_ID00001 : PUMP_ID001002
+                        TANK_ID00002 : PUMP_ID002001
+                        TANK_ID00002 : PUMP_ID002002
+                        TANK_ID00003 : PUMP_ID003001
+                        TANK_ID00003 : PUMP_ID003002
+                        TANK_ID00004 : PUMP_ID004001
+                        TANK_ID00004 : PUMP_ID004002
+                        TANK_ID00005 : PUMP_ID005001
+                        TANK_ID00005 : PUMP_ID005002
+
+
+                EntityObject:Fuel_Grade
+                    Object
+                        | Identity | Grade_name  | Unit_price | Unit_volume
+                        FOUR_STAR  : "Four Star" :      62.90 :        0.01
+                        UNLEADED   : "Unleaded"  :      59.50 :        0.01
+
+
+                EntityObject:Transaction_Policy
+                    Object
+                        | Identity          | Next_transaction_number
+                        TRANSACTION_POLICY  :                       1

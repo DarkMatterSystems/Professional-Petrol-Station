@@ -1,0 +1,300 @@
+
+DefineDomainInclude:0103_Entity_Tank
+
+    | Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    | MASL code within comment sections are UK Crown Copyright.
+
+    Entity:Tank
+        Attribute
+            Equipment_Number : Tank_number
+            Flag             : Tank_empty_flag
+            Volume           : Tank_level
+            Volume           : Tank_capacity
+            Volume           : Empty_threshold
+        Relationship
+            Providing_fuel_for |>> Pump
+            Stores             --> Fuel_Grade
+        Identifier:Tank_Identifier
+            OwnKey
+                Tank_number
+        State
+
+            Dataset:Added_Volume
+                Volume : Added_volume
+
+            Dataset:Delivered_Volume
+                Volume : Delivered_volume
+
+            |-----------
+
+            DynamicDataState:Checking_Levels_After_Tanker_Delivery:Added_Volume
+                ProcessData
+                    Flag   : below_threshold
+                    Volume : percent_level
+                StateAction
+                    |
+                    | //# Add volume to tank level. If the level is greater
+                    | //# than 4% of the tanks capacity reset any waiting pumps.
+                    | //# If the tank is still below its threshold return to the
+                    | //# Nearly Empty state.
+                    |
+                    | this.Increase_Level(Added_Volume);
+                    |
+                    |     | begin
+                    |     |   new_level := this.Tank_Level + Delivered_Volume;
+                    |     |   this.Tank_Level := new_level;
+                    |     | end service;
+                    |
+                    Assignment
+                        Evaluation:Tank.Tank_level
+                            Addition
+                                AdditionData
+                                    Tank.Tank_level
+                                    Added_volume
+                    |
+                    | begin
+                    | this.Check_Level(below_threshold);
+                    | end;
+                    |
+                    |     | begin
+                    |     |   percent_level := (this.Tank_Level / this.Tank_Capacity) * 100.0 ;
+                    |     |
+                    |     |   if percent_level < this.Empty_Threshold then
+                    |     |     Below_Threshold := true;
+                    |     |   else
+                    |     |     Below_Threshold := false;
+                    |     |   end if;
+                    |     | end service;
+                    |
+                    Assignment
+                        Evaluation:percent_level
+                            Division
+                                Dividend
+                                    Addition
+                                        AdditionData
+                                            Tank.Tank_level
+                                Divisor
+                                    Addition
+                                        AdditionData
+                                            Tank.Tank_capacity
+                    CaseSelection
+                        WhenCase
+                            ConditionAnd
+                                TestAnd
+                                    percent_level << Tank.Empty_threshold
+                            WhenCaseSelection
+                                Assignment
+                                    SetBoolean
+                                        below_threshold := <<True>>
+                        NullCaseSelection
+                            Assignment
+                                SetBoolean
+                                    below_threshold := <<False>>
+                    |
+                    | if below_threshold = true then
+                    |   this.Tank_Empty_Flag := true;
+                    |   generate TANK.Level_Below_Threshold() to this;
+                    | else
+                    |   this.Tank_Empty_Flag := false;
+                    |   this.Inform_Connected_Pumps_Fuel_Available();
+                    |
+                    |     | begin
+                    |     |   //# The fuel level in this tank has return to
+                    |     |   //# an operational level. Inform all connected
+                    |     |   //# pumps that the fuel level is ok
+                    |     |
+                    |     |   connected_pumps := this->R1;
+                    |     |
+                    |     |   for pump_instance in connected_pumps'elements loop
+                    |     |     generate PUMP.Fuel_Available() to pump_instance;
+                    |     |   end loop;
+                    |     | end service;
+                    |
+                    |   generate TANK.Level_Above_Threshold() to this;
+                    | end if;
+                    |
+                    CaseSelection
+                        WhenCase
+                            ConditionAnd
+                                BooleanAnd
+                                    below_threshold
+                            WhenCaseSelection
+                                Assignment
+                                    SetBoolean
+                                        Tank.Tank_empty_flag := <<True>>
+                                GenerateEvent
+                                    Tank : Level_below_threshold
+                        NullCaseSelection
+                            Assignment
+                                SetBoolean
+                                    Tank.Tank_empty_flag := <<False>>
+                            Traverse
+                                Navigation
+                                    Tank : Providing_fuel_for : Pump
+                                TraverseSelection
+                                    GenerateEvent
+                                        Pump : Fuel_available
+                            GenerateEvent
+                                Tank : Level_above_threshold
+                Transition
+                    EventState
+                        Level_below_threshold -> Waiting_For_Tanker_Delivery
+                        Level_above_threshold -> Reset_Waiting_Pumps
+                    CannotHappen
+                        Tanker_delivery
+                        Fuel_used
+
+            |-----------
+
+            DynamicState:Waiting_For_Tanker_Delivery
+                |
+                | //# Fuel tank level below 4%. Wait for fuel to be delivered.
+                |
+                Transition
+                    EventState
+                        Tanker_delivery -> Checking_Levels_After_Tanker_Delivery
+                        Fuel_used       -> Updating_Fuel_Levels
+                    CannotHappen
+                        Level_below_threshold
+                        Level_above_threshold
+
+            |-----------
+
+            DynamicState:Reset_Waiting_Pumps
+                |
+                | //# Tank In Use with greater than 4% of volume
+                |
+                Transition
+                    EventState
+                        Tanker_delivery -> Checking_Levels_After_Tanker_Delivery
+                        Fuel_used       -> Checking_Levels_After_Pump_Usage
+                    CannotHappen
+                        Level_below_threshold
+                        Level_above_threshold
+
+            |-----------
+
+            DynamicDataState:Checking_Levels_After_Pump_Usage:Delivered_Volume
+                ProcessData
+                    Flag  : below_threshold
+                    Level : percent_level
+                StateAction
+                    |
+                    | //# Reduce recorded tank level by volume delivered.
+                    | //# If the level is less than 4% of the tanks capacity
+                    | //# then inhibit connected pumps from making further
+                    | //# deliveries.
+                    |
+                    | this.Reduce_Level(Delivered_Volume);
+                    |
+                    |     | begin
+                    |     |   new_level := this.Tank_Level - Delivered_Volume;
+                    |     |   this.Tank_Level := new_level;
+                    |     | end service;
+                    |
+                    Assignment
+                        Evaluation:Tank.Tank_level
+                            Addition
+                                AdditionData
+                                    +Tank.Tank_level
+                                    -Delivered_volume
+                    |
+                    | this.Check_Level(below_threshold);
+                    |
+                    |     | begin
+                    |     |   percent_level := (this.Tank_Level / this.Tank_Capacity) * 100.0 ;
+                    |     |
+                    |     |   if percent_level < this.Empty_Threshold then
+                    |     |     Below_Threshold := true;
+                    |     |   else
+                    |     |     Below_Threshold := false;
+                    |     |   end if;
+                    |     | end service;
+                    |
+                    Assignment
+                        Evaluation:percent_level
+                            Division
+                                Dividend
+                                    Addition
+                                        AdditionData
+                                            Tank.Tank_level
+                                Divisor
+                                    Addition
+                                        AdditionData
+                                            Tank.Tank_capacity
+                    CaseSelection
+                        WhenCase
+                            ConditionAnd
+                                TestAnd
+                                    percent_level << Tank.Empty_threshold
+                            WhenCaseSelection
+                                Assignment
+                                    SetBoolean
+                                        below_threshold := <<True>>
+                        NullCaseSelection
+                            Assignment
+                                SetBoolean
+                                    below_threshold := <<False>>
+                    |
+                    | if below_threshold then
+                    | this.Tank_Empty_Flag := true;
+                    | generate TANK.Level_Below_Threshold() to this;
+                    | else
+                    | generate TANK.Level_Above_Threshold() to this;
+                    | end if;
+                    |
+                    CaseSelection
+                        WhenCase
+                            ConditionAnd
+                                BooleanAnd
+                                    below_threshold
+                            WhenCaseSelection
+                                Assignment
+                                    SetBoolean
+                                        Tank.Tank_empty_flag := <<True>>
+                                GenerateEvent
+                                    Tank : Level_below_threshold
+                        NullCaseSelection
+                            GenerateEvent
+                                Tank : Level_above_threshold
+                Transition
+                    EventState
+                        Level_below_threshold -> Waiting_For_Tanker_Delivery
+                        Level_above_threshold -> Reset_Waiting_Pumps
+                    CannotHappen
+                        Tanker_delivery
+                        Fuel_used
+
+            |-----------
+
+            DynamicDataState:Updating_Fuel_Levels:Delivered_Volume
+                StateAction
+                    |
+                    | //# Fuel has been used so reduce the volume in the tank.
+                    |
+                    | this.Reduce_Level(Delivered_Volume);
+                    |
+                    |     | begin
+                    |     |   new_level := this.Tank_Level - Delivered_Volume;
+                    |     |   this.Tank_Level := new_level;
+                    |     | end service;
+                    |
+                    Assignment
+                        Evaluation:Tank.Tank_level
+                            Addition
+                                AdditionData
+                                    +Tank.Tank_level
+                                    -Delivered_volume
+                    |
+                    | generate TANK.Level_Below_Threshold() to this;
+                    |
+                    GenerateEvent
+                        Tank : Level_below_threshold
+                Transition
+                    EventState
+                        Level_below_threshold -> Waiting_For_Tanker_Delivery
+                    CannotHappen
+                        Tanker_delivery
+                        Level_above_threshold
+                        Fuel_used

@@ -1,0 +1,110 @@
+
+System:Prof_Petrol_Station
+
+    | Copyright (C) 2017 Dark Matter Systems Ltd. All rights reserved.
+
+    | MASL code within comment sections are UK Crown Copyright.
+
+    | The original MASL Petrol Station model can be found here:
+    |     https://github.com/xtuml/masl/tree/master/examples/petrol
+
+    Description
+        Paragraph:Heading
+            Professional Petrol Station Model
+        Paragraph:Content
+            Based on model written in MASL.
+
+    Type
+        BaseType
+            Integer
+                Time_Hour        : 0 ..      23
+                Time_Minute      : 0 ..      59
+                Time_Second      : 0 ..      59
+                Equipment_Number : 1 ..  10_000
+                Business_Number  : 1 .. 100_000
+            Boolean
+                Flag
+            Fixed
+                Money  : 0.001 : 0.00 ..      1_000.00
+                Volume : 0.001 : 0.00 .. 10_000_000.00
+            Float
+                Level : 2 : 0.00 .. 1.00
+            String
+                Text : 100
+
+    Matrix:Model:Application
+        Silo:M1:Software_Application
+            Realm:Analysis_Of_Application
+                Domain:Petrol_Station_Control
+
+                    EventContext
+                        ImportEvent
+                            |
+                            | Controls Domain
+                            |
+                            | Attendant
+                            Delivery    : Create_delivery
+                            |
+                            | Customer
+                            Pump        : Gun_removed
+                            Pump        : Gun_replaced
+                            Pump        : Trigger_depressed
+                            Pump        : Trigger_released
+                            Transaction : Payment_received
+                            Transaction : Customer_absconds
+                            Transaction : Close_transaction
+                            |
+                            | Machinery Domain
+                            |
+                            | Meter
+                            Delivery    : Fuel_unit_delivered
+                            |
+                            | Tanker
+                            Tank        : Tanker_delivery
+
+                    |===========================================================
+
+                    DomainInclude
+                        0101_Entity_Delivery
+                        0102_Entity_Pump
+                        0103_Entity_Tank
+                        0104_Entity_Transaction
+
+                    |===========================================================
+
+                    Entity:Fuel_Grade
+                        Attribute
+                            Text   : Grade_name
+                            Money  : Unit_price
+                            Volume : Unit_volume
+                        Identifier:Fuel_Grade_Identifier
+                            OwnKey
+                                Grade_name
+
+                    |===========================================================
+
+                    Entity:Pending_Transaction
+                        Relationship
+                            Pending_for --> Pump
+
+                    |===========================================================
+
+                    Entity:Evaded_Transaction
+                        Attribute
+                            Text : Observations
+
+                    |===========================================================
+
+                    Entity:Transaction_Policy
+                        Attribute
+                            Business_Number : Next_transaction_number
+
+                    |===========================================================
+
+                    NullEntity
+                        Paid_Transaction
+
+        |=======================================================================
+
+        MatrixInclude
+            0200_Silo_Real_World_Objects
